@@ -1,0 +1,17 @@
+{
+  "name": "aminodorks",
+  "version": "1.0.0",
+  "description": "Amino wrapper",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc && node ./dist/index.js"
+  },
+  "keywords": [
+    "amino"
+  ],
+  "author": "zitraxxx && celtic",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^24.0.3"
+  }
+}

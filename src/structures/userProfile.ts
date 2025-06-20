@@ -1,0 +1,34 @@
+export interface UserProfile {
+    status: number;
+    moodSticker: any;
+    itemsCount: number;
+    consecutiveCheckInDays: number | null;
+    uid: string;
+    modifiedTime: string;
+    followingStatus: number;
+    onlineStatus: number;
+    accountMembershipStatus: number;
+    isGlobal: boolean;
+    reputation: number;
+    postsCount: number;
+    membersCount: number;
+    nickname: string;
+    mediaList: any;
+    icon: string | null;
+    isNicknameVerified: boolean;
+    mood: string | null;
+    level: number;
+    notificationSubscriptionStatus: number;
+    pushEnabled: boolean;
+    membershipStatus: number;
+    content: any;
+    joinedCount: number;
+    role: number;
+    commentsCount: number;
+    aminoId: string;
+    ndcId: number;
+    createdTime: string;
+    extensions: any;
+    storiesCount: number;
+    blogsCount: number;
+}
