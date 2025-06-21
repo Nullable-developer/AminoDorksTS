@@ -1,9 +1,11 @@
 import { Client } from "../core/client";
-import { WallCommentsTypes, UserProfileBuilder } from "./types";
+import { API_URL } from "../constants";
+import { UserProfile } from "../structures";
+import { WallCommentsTypes, UserProfileBuilder, MembersType } from "./types";
 
 export class UserService {
     readonly client: Client;
-    readonly SERVICE_ENDPOINT: string = "/g/s/user-profile";
+    readonly SERVICE_ENDPOINT: string = "/s/user-profile";
 
     constructor(client: Client) {
         this.client = client;
@@ -11,48 +13,48 @@ export class UserService {
 
     async getLinkedCommunities(userId: string): Promise<any> {
         const response = await this.client.makeRequest(
-            "GET", `${this.SERVICE_ENDPOINT}/${userId}/linked-communities`
+            API_URL, "GET", `${this.SERVICE_ENDPOINT}/${userId}/linked-communities`
         );
 
         return response;
     }
     
-    async getUserInfo(userId: string): Promise<any> {
+    async getUserInfo(contextUrl: string, userId: string): Promise<UserProfile> {
         const response = await this.client.makeRequest(
-            "GET", `${this.SERVICE_ENDPOINT}/${userId}`
-        );
+            contextUrl, "GET", `${this.SERVICE_ENDPOINT}/${userId}`
+        ) as UserProfile;
 
         return response;
-    }
+    }   
 
-    async getUserFollowing(userId: string, start: number, size: number): Promise<any> {
+    async getUserFollowing(contextUrl: string, userId: string, start: number, size: number): Promise<Array<UserProfile>> {
         const response = await this.client.makeRequest(
-            "GET", `${this.SERVICE_ENDPOINT}/${userId}/joined?start=${start}&size=${size}`
+            contextUrl, "GET", `${this.SERVICE_ENDPOINT}/${userId}/joined?start=${start}&size=${size}`
         );
 
-        return response
+        return response.userProfileList as Array<UserProfile>;
 
     }
 
-    async getUserVisitors(userId: string, start: number, size: number): Promise<any> {
+    async getUserVisitors(userId: string, start: number, size: number): Promise<Array<UserProfile>> {
         const response = await this.client.makeRequest(
-            "GET", `${this.SERVICE_ENDPOINT}/${userId}/visitor?start=${start}&size=${size}`
+            API_URL, "GET", `${this.SERVICE_ENDPOINT}/${userId}/visitor?start=${start}&size=${size}`
         );
 
-        return response;
+        return response.userProfileList as Array<UserProfile>;
     }
     
-    async getUserFollowers(userId: string, start: Number, size: number): Promise<any> {
+    async getUserFollowers(contextUrl: string, userId: string, start: Number, size: number): Promise<Array<UserProfile>> {
         const response = await this.client.makeRequest(
-            "GET", `${this.SERVICE_ENDPOINT}/${userId}/member?start=${start}&size=${size}`
+            contextUrl, "GET", `${this.SERVICE_ENDPOINT}/${userId}/member?start=${start}&size=${size}`
         );
 
-        return response
+        return response.userProfileList as Array<UserProfile>;
     }
 
-    async getWallComments(userId: string, sorting: WallCommentsTypes, start: number, size: number): Promise<any> {
+    async getWallComments(contextUrl: string, userId: string, sorting: WallCommentsTypes, start: number, size: number): Promise<any> {
         const response = await this.client.makeRequest(
-            "GET", `${this.SERVICE_ENDPOINT}/${userId}/g-comments?sort=${sorting}&start=${start}&size=${size}`
+            contextUrl, "GET", `${this.SERVICE_ENDPOINT}/${userId}/g-comments?sort=${sorting}&start=${start}&size=${size}`
         );
 
         return response;
@@ -60,28 +62,29 @@ export class UserService {
 
     async visit(userId: string): Promise<number> {
         await this.client.makeRequest(
-            "GET", `${this.SERVICE_ENDPOINT}/${userId}?action=visit`
+            API_URL, "GET", `${this.SERVICE_ENDPOINT}/${userId}?action=visit`
         );
 
         return 200;
     }
 
-    async follow(userIds: number[]): Promise<any> {
+    async follow(contextUrl: string, userIds: number[]): Promise<any> {
         await this.client.makeRequest(
-            "POST", `${this.SERVICE_ENDPOINT}/${this.client.userId}/joined`, {
+            contextUrl, "POST", `${this.SERVICE_ENDPOINT}/${this.client.userId}/joined`, {
                 targetUidList: userIds
             }
         );
     }
 
-    async unfollow(userId: string): Promise<any> {
+    async unfollow(contextUrl: string, userId: string): Promise<any> {
         await this.client.makeRequest(
-            "DELETE", `${this.SERVICE_ENDPOINT}/${userId}/member/${this.client.userId}`
+            contextUrl, "DELETE", `${this.SERVICE_ENDPOINT}/${userId}/member/${this.client.userId}`
         );
     }
 
 
     async editProfile(
+        contextUrl: string,
         userProfileBuilder: UserProfileBuilder
     ): Promise<number> {
         let data: Record<string, any> = {
@@ -94,15 +97,15 @@ export class UserService {
         };
 
         await this.client.makeRequest(
-            "POST", `${this.SERVICE_ENDPOINT}/${this.client.userId}`, data
+            contextUrl, "POST", `${this.SERVICE_ENDPOINT}/${this.client.userId}`, data
         );
 
         return 200;
     }
 
-    async sendWallComment(content: string, userId: string, repliedMessageId?: string): Promise<any> {
+    async sendWallComment(contextUrl: string, content: string, userId: string, repliedMessageId?: string): Promise<any> {
         await this.client.makeRequest(
-            "POST", `${this.SERVICE_ENDPOINT}/${userId}/g-comment`, {
+            contextUrl, "POST", `${this.SERVICE_ENDPOINT}/${userId}/g-comment`, {
                 content: content,
                 stickerId: null,
                 type: 0,
@@ -111,30 +114,30 @@ export class UserService {
         )
     }
 
-    async deleteWallComment(userId: string, commentId: string): Promise<any> {
+    async deleteWallComment(contextUrl: string, userId: string, commentId: string): Promise<any> {
         await this.client.makeRequest(
-            "DELETE", `${this.SERVICE_ENDPOINT}/${userId}/g-comment/${commentId}`
+            contextUrl, "DELETE", `${this.SERVICE_ENDPOINT}/${userId}/g-comment/${commentId}`
         )
     }
 
-    async likeWallComment(userId: string, commentId: string): Promise<any> {
+    async likeWallComment(contextUrl: string, userId: string, commentId: string): Promise<any> {
         await this.client.makeRequest(
-            "POST", `${this.SERVICE_ENDPOINT}/${userId}/comment/${commentId}/g-vote?cv=1.2&value=1`, {
+            contextUrl, "POST", `${this.SERVICE_ENDPOINT}/${userId}/comment/${commentId}/g-vote?cv=1.2&value=1`, {
                 value: 4,
                 eventSource: "UserProfileView"
             }
         )
     }
 
-    async unlikeWallComment(userId: string, commentId: string): Promise<any> {
-        await this.client.makeRequest("DELETE", `${this.SERVICE_ENDPOINT}/${userId}/comment/${commentId}/g-vote?eventSource=UserProfileView`)
+    async unlikeWallComment(contextUrl: string, userId: string, commentId: string): Promise<any> {
+        await this.client.makeRequest(contextUrl, "DELETE", `${this.SERVICE_ENDPOINT}/${userId}/comment/${commentId}/g-vote?eventSource=UserProfileView`)
     }
 
-    async getAllUsers(type: string, start: number, size: number): Promise<any> {
+    async getAllUsers(contextUrl: string, type: MembersType, start: number, size: number): Promise<Array<UserProfile>> {
         const response = await this.client.makeRequest(
-            "GET", `${this.SERVICE_ENDPOINT}?type=${type}&start=${start}&size=${size}`
+            contextUrl, "GET", `${this.SERVICE_ENDPOINT}?type=${type}&start=${start}&size=${size}`
         );
 
-        return response
+        return response.userProfileList as Array<UserProfile>;
     }
 }

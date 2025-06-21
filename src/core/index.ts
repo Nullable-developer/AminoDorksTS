@@ -12,6 +12,8 @@ import {
     DorksInvalidPassword
 } from "./errors";
 
+import { AminoDorks } from "../amino";
+
 export {
     DorksError, 
     DorksAccessDenied,
@@ -23,5 +25,6 @@ export {
     DorksMessageNeeded,
     DorksAccountDisabled,
     DorksInvalidEmail,
-    DorksInvalidPassword
+    DorksInvalidPassword,
+    AminoDorks
 }

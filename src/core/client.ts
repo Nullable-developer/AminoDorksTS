@@ -9,6 +9,9 @@ export class Client {
     deviceId: string;
     dorksHeaders: DorksHeaders;
 
+    // Orchestrator -> this -> this.url 
+    // Orchestrator.community -> this -> this.url 
+
     constructor(sessionId?: string, userId?: string, deviceId?: string) {
         this.userId = userId;
         this.deviceId = deviceId || generateDeviceId();
@@ -28,8 +31,8 @@ export class Client {
         return configuredHeaders;
     }
 
-    async makeRequest(method: Methods, endpoint: string, payload?: Record<string, any>, contentType?: ContentTypes): Promise<any> {
-        const response = await fetch(`${API_URL}${endpoint}`, {
+    async makeRequest(url: string, method: Methods, endpoint: string, payload?: Record<string, any>, contentType?: ContentTypes): Promise<any> {
+        const response = await fetch(`${url}${endpoint}`, {
             method: method,
             headers: this.configureHeaders(payload, contentType),
             body: JSON.stringify(payload)

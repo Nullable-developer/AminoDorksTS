@@ -1,9 +1,10 @@
 import { Client } from "../core/client";
+import { API_URL } from "../constants";
 import { AuthResponse } from "./types";
 
 export class AuthService {
     readonly client: Client
-    readonly SERVICE_ENDPOINT: string = "/g/s/auth";
+    readonly SERVICE_ENDPOINT: string = "/s/auth";
     
     constructor(client: Client) {
         this.client = client
@@ -16,7 +17,7 @@ export class AuthService {
     
     async authenticate(email: string, password: string): Promise<AuthResponse> {
         const response = await this.client.makeRequest(
-            "POST", `${this.SERVICE_ENDPOINT}/login`, {
+            API_URL, "POST", `${this.SERVICE_ENDPOINT}/login`, {
                 email: email, 
                 v: 2,
                 secret: `0 ${password}`,
@@ -31,7 +32,7 @@ export class AuthService {
     }
 
     async authenticateWithPhone(phoneNumber: string, password: string): Promise<AuthResponse> {
-        const response = await this.client.makeRequest("POST", "/login", {
+        const response = await this.client.makeRequest(API_URL, "POST", "/login", {
             phoneNumber: phoneNumber,
             v: 2,
             secret: `0 ${password}`,
@@ -51,7 +52,7 @@ export class AuthService {
         deviceId: string,
         verificationCode: string
     ): Promise<number> {
-        await this.client.makeRequest("POST", "/register", {
+        await this.client.makeRequest(API_URL, "POST", "/register", {
             secret: `0 ${password}`,
             deviceId: deviceId,
             email: email,
@@ -76,7 +77,7 @@ export class AuthService {
     }
 
     async disconnect(): Promise<number> {
-        await this.client.makeRequest("POST", "/logout", {
+        await this.client.makeRequest(API_URL, "POST", "/logout", {
             deviceID: this.client.deviceId,
             clientType: 100
         });
@@ -86,7 +87,7 @@ export class AuthService {
     }
 
     async requestVerifictionCode(email: string): Promise<number> {
-        await this.client.makeRequest("POST", "/request-security-validation", {
+        await this.client.makeRequest(API_URL, "POST", "/request-security-validation", {
             identity: email,
             type: 1,
             deviceID: this.client.deviceId
@@ -96,7 +97,7 @@ export class AuthService {
     }
 
     async requestResetPassword(email: string): Promise<number> {
-        await this.client.makeRequest("POST", "/request-security-validation", {
+        await this.client.makeRequest(API_URL, "POST", "/request-security-validation", {
             identity: email,
             type: 1,
             deviceID: this.client.deviceId,
@@ -111,7 +112,7 @@ export class AuthService {
         email: string, 
         verificationCode: string
     ): Promise<number> {
-        await this.client.makeRequest("POST", "/check-security-validation", {
+        await this.client.makeRequest(API_URL, "POST", "/check-security-validation", {
             validationContext: {
                 type: 1, 
                 identity: email, 
@@ -127,7 +128,7 @@ export class AuthService {
         email: string, 
         activationCode: string
     ): Promise<number> {
-        await this.client.makeRequest("POST", "/activate-email", {
+        await this.client.makeRequest(API_URL, "POST", "/activate-email", {
             type: 1, 
             identity: email, 
             data: { code: activationCode },
@@ -142,7 +143,7 @@ export class AuthService {
         email: string, 
         password: string
     ): Promise<number> {
-        await this.client.makeRequest("POST", "/reset-password", {
+        await this.client.makeRequest(API_URL, "POST", "/reset-password", {
             updateSecret: `0 ${password}`,
             emailValidationContext: {
                 data: { code: code },
@@ -159,7 +160,7 @@ export class AuthService {
     }
     
     async deleteAccount(password: string): Promise<number> {
-        await this.client.makeRequest("POST", "/delete-request", {
+        await this.client.makeRequest(API_URL, "POST", "/delete-request", {
             secret: `0 ${password}`,
             deviceID: this.client.deviceId
         });

@@ -1,6 +1,6 @@
 import { DorksHeaders } from "./core/types";
 
-export const API_URL = "https://service.aminoapps.com/api/v1";
+export const API_URL = "https://service.aminoapps.com/api/v1/g";
 export const WEBSOCKET_URL = "ws://ws1.aminoapps.com";
 
 export const DEFAULT_HEADERS: DorksHeaders = {

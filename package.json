@@ -1,10 +1,11 @@
 {
   "name": "aminodorks",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Amino wrapper",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "start": "tsc && node ./dist/index.js"
+    "start": "tsc && node ./dist/tests/index.js"
   },
   "keywords": [
     "amino"
@@ -13,5 +14,6 @@
   "license": "ISC",
   "dependencies": {
     "@types/node": "^24.0.3"
-  }
+  },
+  "files": ["dist"]
 }

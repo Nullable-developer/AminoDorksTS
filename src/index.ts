@@ -4,8 +4,9 @@ const DESCRIPTION = 'AminoDorks is a Node.js library for interacting with the Am
 const AUTHORS = ["Zitraxxx", "Celtic"]
 const COPYRIGHT = 'Copyright © 2025 Zitraxxx, Celtic';
 const LICENSE = 'MIT';
-const REPOSITORY = ''; 
+const REPOSITORY = 'https://github.com/Nullable-developer/AminoDorksTS'; 
 
 // Exporting constants
-export * from "./core";
-export * from './structures'; 
+export * from './core';
+export * from './structures';
+export * from './amino'
