@@ -11,91 +11,91 @@ export class DorksError extends Error {
 
 export class DorksUnsupportedService extends DorksError {
     constructor(message?: string) {
-        super(message ?? "Unsupported service", 100);
+        super(message ?? 'Unsupported service', 100);
     }
 }
 
 export class DorksFileTooLarge extends DorksError {
     constructor(message?: string) {
-        super(message ?? "File size exceeds the limit", 102);
+        super(message ?? 'File size exceeds the limit', 102);
     }
 }
 
 export class DorksInvalidRequest extends DorksError {
     constructor(message?: string) {
-        super(message ?? "Invalid request", 103);
+        super(message ?? 'Invalid request', 103);
     }
 }
 
 export class DorksInvalidSession extends DorksError {
     constructor(message?: string) {
-        super(message ?? "Invalid session", 105);
+        super(message ?? 'Invalid session', 105);
     }
 }
 
 export class DorksAccessDenied extends DorksError {
     constructor(message?: string) {
-        super(message ?? "Access denied", 106);
+        super(message ?? 'Access denied', 106);
     }
 }
 
 export class DorksUnexistentData extends DorksError {
     constructor(message?: string) {
-        super(message ?? "Data does not exist", 107);
+        super(message ?? 'Data does not exist', 107);
     }
 }
 
 export class DorksActionNotAllowed extends DorksError {
     constructor(message?: string) {
-        super(message ?? "Action not allowed", 110);
+        super(message ?? 'Action not allowed', 110);
     }
 }
 
 export class DorksServiceUnderMaintenance extends DorksError {
     constructor(message?: string) {
-        super(message ?? "Service is under maintenance", 111);
+        super(message ?? 'Service is under maintenance', 111);
     }
 }
 
 export class DorksMessageNeeded extends DorksError {
     constructor(message?: string) {
-        super(message ?? "Message is required", 113);
+        super(message ?? 'Message is required', 113);
     }
 }
 
 export class DorksAccountDisabled extends DorksError {
     constructor(message?: string) {
-        super(message ?? "Account is disabled", 210);
+        super(message ?? 'Account is disabled', 210);
     }
 }
 
 export class DorksInvalidEmail extends DorksError {
     constructor(message?: string) {
-        super(message ?? "Invalid email address", 213);
+        super(message ?? 'Invalid email address', 213);
     }
 }
 
 export class DorksInvalidPassword extends DorksError {
     constructor(message?: string) {
-        super(message ?? "Invalid password", 214);
+        super(message ?? 'Invalid password', 214);
     }
 }
 
 export class DorksEmailAlreadyTaken extends DorksError {
     constructor(message?: string) {
-        super(message ?? "Email is already taken", 215);
+        super(message ?? 'Email is already taken', 215);
     }
 }
 
 export class AccountDoesntExist extends DorksError {
     constructor(message?: string) {
-        super(message ?? "Account does not exist", 216);
+        super(message ?? 'Account does not exist', 216);
     }
 }
 
 export class DorksBadGateway extends DorksError {
     constructor(message?: string) {
-        super(message ?? "Bad gateway", 502);
+        super(message ?? 'Bad gateway', 502);
     }
 }
 

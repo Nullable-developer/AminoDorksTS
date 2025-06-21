@@ -1,8 +1,8 @@
-import { Client } from "./core/client";
-import { AuthResponse } from "./service/types";
-import { AuthService } from "./service/auth.service";
-import { UserService } from "./service/user.service";
-import { NDCService } from "./service/ndc.service";
+import { Client } from './core/client';
+import { AuthResponse } from './service/types';
+import { AuthService } from './service/auth.service';
+import { UserService } from './service/user.service';
+import { NDCService } from './service/ndc.service';
 
 export class AminoDorks {
     private userId?: string;

@@ -1,10 +1,10 @@
-import { Client } from "../core/client";
-import { API_URL } from "../constants";
-import { AuthResponse } from "./types";
+import { Client } from '../core/client';
+import { API_URL } from '../constants';
+import { AuthResponse } from './types';
 
 export class AuthService {
     readonly client: Client
-    readonly SERVICE_ENDPOINT: string = "/s/auth";
+    readonly SERVICE_ENDPOINT: string = '/s/auth';
     
     constructor(client: Client) {
         this.client = client
@@ -12,18 +12,18 @@ export class AuthService {
 
     set sessionId(sessionId: string) {
         this.client.sessionId = sessionId;
-        this.client.dorksHeaders["NDCAUTH"] = `sid=${sessionId}`
+        this.client.dorksHeaders['NDCAUTH'] = `sid=${sessionId}`
     }
     
     async authenticate(email: string, password: string): Promise<AuthResponse> {
         const response = await this.client.makeRequest(
-            API_URL, "POST", `${this.SERVICE_ENDPOINT}/login`, {
+            API_URL, 'POST', `${this.SERVICE_ENDPOINT}/login`, {
                 email: email, 
                 v: 2,
                 secret: `0 ${password}`,
                 deviceID: this.client.deviceId,
                 clientType: 100,
-                action: "normal",
+                action: 'normal',
             }
         ) as AuthResponse;
 
@@ -32,13 +32,13 @@ export class AuthService {
     }
 
     async authenticateWithPhone(phoneNumber: string, password: string): Promise<AuthResponse> {
-        const response = await this.client.makeRequest(API_URL, "POST", "/login", {
+        const response = await this.client.makeRequest(API_URL, 'POST', '/login', {
             phoneNumber: phoneNumber,
             v: 2,
             secret: `0 ${password}`,
             deviceID: this.client.deviceId,
             clientType: 100,
-            action: "normal",
+            action: 'normal',
         }) as AuthResponse;
 
         this.sessionId = response.sid;
@@ -52,7 +52,7 @@ export class AuthService {
         deviceId: string,
         verificationCode: string
     ): Promise<number> {
-        await this.client.makeRequest(API_URL, "POST", "/register", {
+        await this.client.makeRequest(API_URL, 'POST', '/register', {
             secret: `0 ${password}`,
             deviceId: deviceId,
             email: email,
@@ -61,7 +61,7 @@ export class AuthService {
             latitude: 0,
             longitude: 0,
             address: null, 
-            clientCallbackURL: "narviiapp://relogin",
+            clientCallbackURL: 'narviiapp://relogin',
             validationContext: {
                 data: {
                     code: verificationCode
@@ -77,17 +77,17 @@ export class AuthService {
     }
 
     async disconnect(): Promise<number> {
-        await this.client.makeRequest(API_URL, "POST", "/logout", {
+        await this.client.makeRequest(API_URL, 'POST', '/logout', {
             deviceID: this.client.deviceId,
             clientType: 100
         });
 
-        delete this.client.dorksHeaders["NDCAUTH"];
+        delete this.client.dorksHeaders['NDCAUTH'];
         return 200;
     }
 
     async requestVerifictionCode(email: string): Promise<number> {
-        await this.client.makeRequest(API_URL, "POST", "/request-security-validation", {
+        await this.client.makeRequest(API_URL, 'POST', '/request-security-validation', {
             identity: email,
             type: 1,
             deviceID: this.client.deviceId
@@ -97,12 +97,12 @@ export class AuthService {
     }
 
     async requestResetPassword(email: string): Promise<number> {
-        await this.client.makeRequest(API_URL, "POST", "/request-security-validation", {
+        await this.client.makeRequest(API_URL, 'POST', '/request-security-validation', {
             identity: email,
             type: 1,
             deviceID: this.client.deviceId,
             level: 2,
-            purpose: "reset-password"
+            purpose: 'reset-password'
         });
 
         return 200;
@@ -112,7 +112,7 @@ export class AuthService {
         email: string, 
         verificationCode: string
     ): Promise<number> {
-        await this.client.makeRequest(API_URL, "POST", "/check-security-validation", {
+        await this.client.makeRequest(API_URL, 'POST', '/check-security-validation', {
             validationContext: {
                 type: 1, 
                 identity: email, 
@@ -128,7 +128,7 @@ export class AuthService {
         email: string, 
         activationCode: string
     ): Promise<number> {
-        await this.client.makeRequest(API_URL, "POST", "/activate-email", {
+        await this.client.makeRequest(API_URL, 'POST', '/activate-email', {
             type: 1, 
             identity: email, 
             data: { code: activationCode },
@@ -143,7 +143,7 @@ export class AuthService {
         email: string, 
         password: string
     ): Promise<number> {
-        await this.client.makeRequest(API_URL, "POST", "/reset-password", {
+        await this.client.makeRequest(API_URL, 'POST', '/reset-password', {
             updateSecret: `0 ${password}`,
             emailValidationContext: {
                 data: { code: code },
@@ -160,7 +160,7 @@ export class AuthService {
     }
     
     async deleteAccount(password: string): Promise<number> {
-        await this.client.makeRequest(API_URL, "POST", "/delete-request", {
+        await this.client.makeRequest(API_URL, 'POST', '/delete-request', {
             secret: `0 ${password}`,
             deviceID: this.client.deviceId
         });

@@ -1,5 +1,5 @@
-import { Account } from "./account"
-import { UserProfile } from "./userProfile"
+import { Account } from './account'
+import { UserProfile } from './userProfile'
 
 export {
     Account,

@@ -10,9 +10,7 @@ import {
     DorksAccountDisabled,
     DorksInvalidEmail,
     DorksInvalidPassword
-} from "./errors";
-
-import { AminoDorks } from "../amino";
+} from './errors';
 
 export {
     DorksError, 
@@ -26,5 +24,4 @@ export {
     DorksAccountDisabled,
     DorksInvalidEmail,
     DorksInvalidPassword,
-    AminoDorks
 }

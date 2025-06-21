@@ -1,6 +1,6 @@
-import { UserService } from "./user.service";
-import { UserProfile } from "../structures";
-import { WallCommentsTypes, UserProfileBuilder, MembersType } from "./types";
+import { UserService } from './user.service';
+import { UserProfile } from '../structures';
+import { WallCommentsTypes, UserProfileBuilder, MembersType } from './types';
 
 export class NDCService {
     readonly ndcUrl: string;
